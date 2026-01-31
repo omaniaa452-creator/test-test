@@ -52,20 +52,20 @@ const ProductSheet: React.FC<ProductSheetProps> = ({ isOpen, product, onClose, o
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [isOpen, onClose]);
 
-  if (!isOpen || !product) return null;
-
-  const code = `${STORE_CONFIG.productCodePrefix}-${String(product.id).padStart(3, '0')}`;
-
   const heroSrc = React.useMemo(() => {
     const base = (import.meta as any).env?.BASE_URL || '/';
     const placeholder = `${base}assets/placeholder-product.svg`;
-    if (typeof product.image === 'string' && product.image.trim()) return product.image;
-    if (product.images && product.images.length) {
+    if (typeof product?.image === 'string' && product.image.trim()) return product.image;
+    if (product?.images && product.images.length) {
       const first = product.images.find((u) => typeof u === 'string' && u.trim());
       if (first) return first;
     }
     return placeholder;
   }, [product]);
+
+  if (!isOpen || !product) return null;
+
+  const code = `${STORE_CONFIG.productCodePrefix}-${String(product.id).padStart(3, '0')}`;
 
   const handlePrimary = () => {
     if (product.isSoldOut) return;
@@ -209,6 +209,9 @@ const ProductSheet: React.FC<ProductSheetProps> = ({ isOpen, product, onClose, o
             {!product.isSoldOut && (primary === 'whatsapp' ? <WhatsappIcon /> : <MessengerIcon />)}
             <span>{product.isSoldOut ? STORE_CONFIG.copy.ui.unavailableNow : (primary === 'whatsapp' ? STORE_CONFIG.copy.ui.orderViaWhatsApp : STORE_CONFIG.copy.ui.orderViaMessenger)}</span>
           </button>
+          {product.isSoldOut && (
+            <div className="sheet-cta-hint">غير متاح حالياً</div>
+          )}
 
           {!product.isSoldOut && (
             <button
