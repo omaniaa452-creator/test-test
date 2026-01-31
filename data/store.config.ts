@@ -224,6 +224,14 @@ export interface StoreConfig {
       emptySectionTitle: string;
       emptySectionHint: string;
 
+      /** Guardrails (V11.5): clamp + fallback behavior */
+      maxTitleLines: number;
+      maxDescriptionLines: number;
+      badgesClamp: number;
+      priceFallbackText: string;
+      clampLongWords: boolean;
+      placeholderProductImage: string;
+
       videoFullscreenLabel: string;
       videoLoadErrorLabel: string;
       orderVideoViaWhatsApp: string;
