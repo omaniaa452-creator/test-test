@@ -102,7 +102,7 @@ const isPlaceholderImage = typeof product.image === 'string' && product.image.in
                 )}
             </div>
             
-            <div className="product-details">
+            <div className="product-details" onClick={handleOpen}>
                 <h3 className="product-title">{product.name}</h3>
                 <div className="product-meta" style={{marginTop: '6px'}}>
                     <span style={{fontWeight: 700}}>{STORE_CONFIG.copy.ui.codeLabel}: {code}</span>
@@ -128,8 +128,7 @@ const isPlaceholderImage = typeof product.image === 'string' && product.image.in
                     <button
                         onClick={(e) => { e.stopPropagation(); handleOpen(); }}
                         className={`btn btn-full ${product.isSoldOut ? 'btn-secondary' : 'btn-primary'}`}
-                        disabled={product.isSoldOut}
-                        style={{ opacity: product.isSoldOut ? 0.7 : 1, cursor: product.isSoldOut ? 'not-allowed' : 'pointer' }}
+                        style={{ opacity: product.isSoldOut ? 0.7 : 1, cursor: 'pointer' }}
                     >
                         <span>{product.isSoldOut ? STORE_CONFIG.copy.ui.unavailableNow : STORE_CONFIG.copy.ui.viewDetails}</span>
                     </button>

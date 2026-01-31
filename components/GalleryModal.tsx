@@ -58,8 +58,8 @@ export default function GalleryModal({ isOpen, title, images, startIndex = 0, on
     if (!isOpen) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
-      if (e.key === 'ArrowLeft') setIndex(i => Math.min(i + 1, safeImages.length - 1));
-      if (e.key === 'ArrowRight') setIndex(i => Math.max(i - 1, 0));
+      if (e.key === 'ArrowLeft') setIndex(i => Math.max(i - 1, 0));
+      if (e.key === 'ArrowRight') setIndex(i => Math.min(i + 1, safeImages.length - 1));
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -69,6 +69,7 @@ export default function GalleryModal({ isOpen, title, images, startIndex = 0, on
 
   const canPrev = index > 0;
   const canNext = index < safeImages.length - 1;
+  const hasImages = safeImages.length > 0;
 
   return (
     <div className="modal-overlay" role="dialog" aria-modal="true" onMouseDown={(e) => {
@@ -93,15 +94,19 @@ export default function GalleryModal({ isOpen, title, images, startIndex = 0, on
 
             <div className={`gallery-skeleton${galleryImgLoaded ? " is-loaded" : ""}`} aria-hidden="true" />
 
-            <img
-              className={`gallery-image${galleryImgLoaded ? " is-loaded" : ""}`}
-              src={safeImages[index]}
-              alt={title || 'صورة'}
-              loading="lazy"
-              decoding="async"
-              onLoad={() => setGalleryImgLoaded(true)}
-              onError={() => setGalleryImgLoaded(true)}
-            />
+            {hasImages ? (
+              <img
+                className={`gallery-image${galleryImgLoaded ? " is-loaded" : ""}`}
+                src={safeImages[index]}
+                alt={title || 'صورة'}
+                loading="lazy"
+                decoding="async"
+                onLoad={() => setGalleryImgLoaded(true)}
+                onError={() => setGalleryImgLoaded(true)}
+              />
+            ) : (
+              <div className="gallery-empty">لا توجد صور متاحة</div>
+            )}
 
             <button
               className="gallery-nav right"

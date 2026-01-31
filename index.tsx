@@ -86,6 +86,7 @@ function App() {
   // V11: Product bottom sheet modal
   const [productSheetOpen, setProductSheetOpen] = useState(false);
   const [activeProduct, setActiveProduct] = useState<Product | null>(null);
+  const closeProductTimeoutRef = useRef<number | null>(null);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [activeSectionId, setActiveSectionId] = useState<string>(() => enabledNav[0]?.id ?? '');
   const activeSectionIdRef = useRef<string>(enabledNav[0]?.id ?? '');
@@ -364,6 +365,10 @@ useEffect(() => {
   };
 
   const openProduct = (product: Product) => {
+      if (closeProductTimeoutRef.current !== null) {
+        window.clearTimeout(closeProductTimeoutRef.current);
+        closeProductTimeoutRef.current = null;
+      }
       setActiveProduct(product);
       setProductSheetOpen(true);
   };
@@ -371,7 +376,13 @@ useEffect(() => {
   const closeProduct = () => {
       setProductSheetOpen(false);
       // Keep the last product in state to avoid flicker on close animation (CSS only)
-      window.setTimeout(() => setActiveProduct(null), 0);
+      if (closeProductTimeoutRef.current !== null) {
+        window.clearTimeout(closeProductTimeoutRef.current);
+      }
+      closeProductTimeoutRef.current = window.setTimeout(() => {
+        setActiveProduct(null);
+        closeProductTimeoutRef.current = null;
+      }, 0);
   };
 
   const openVideo = (title: string, poster: string, src: string) => {
@@ -783,12 +794,8 @@ useEffect(() => {
             product={activeProduct}
             onClose={closeProduct}
             onOpenGallery={(p, startIndex) => {
-                // Close the product sheet first to avoid stacked modals.
                 setProductSheetOpen(false);
-                setGalleryTitle(p.name);
-                setGalleryImages((p.images && p.images.length > 0) ? p.images : [p.image]);
-                setGalleryStartIndex(startIndex ?? 0);
-                setGalleryOpen(true);
+                openGallery(p, startIndex ?? 0);
             }}
         />
 
