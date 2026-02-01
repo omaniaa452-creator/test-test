@@ -517,6 +517,12 @@ useEffect(() => {
                         style={{width: '100%', height: 'auto', display: 'block'}}
                         loading="lazy"
                         decoding="async"
+                        onError={(event) => {
+                            const img = event.currentTarget;
+                            if (!img.src.includes('/assets/placeholder-product.svg')) {
+                                img.src = '/assets/placeholder-product.svg';
+                            }
+                        }}
                     />
                 </div>
             </section>

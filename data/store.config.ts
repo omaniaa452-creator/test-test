@@ -421,7 +421,7 @@ theme: {
     heroSubtitle: 'أضف منتجاتك، ثم استقبل الطلبات عبر واتساب أو ميسنجر. مناسب للهاتف وRTL.',
     heroTag: 'Premium • Fast • Mobile-first',
     heroPrimaryButtonLabel: 'تصفّح الكتالوج',
-    heroImageSrc: 'https://images.unsplash.com/photo-1523438097206-ecf4f42c6f62?auto=format&fit=crop&w=1400&q=75',
+    heroImageSrc: '/assets/hero/hero.svg',
     heroImageAlt: 'Hero image',
     trustBullets: ['خطوات واضحة', 'سريع على الهاتف', 'Responsive', 'CTA واضح', 'سهل التخصيص'],
     instagramLabel: 'انستغرام',
